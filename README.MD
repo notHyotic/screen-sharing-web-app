@@ -1,6 +1,6 @@
 # screen-sharing-web-app
 
-# Run locally
+# Run Locally
 ``` 
 git clone https://github.com/notHyotic/screen-sharing-web-app.git
 cd screen-sharing-web-app
@@ -14,5 +14,5 @@ Go to https://livekit.io/, create an application and retrieve the api key, api s
 pnpm run dev
 ```
 
-# self hosting
+# Self Hosting
 With a github account, this can be hosted for free with [Vercel](https://vercel.com/)
