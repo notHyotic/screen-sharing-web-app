@@ -1,4 +1,5 @@
 # screen-sharing-web-app
+[![Build](https://github.com/notHyotic/screen-sharing-web-app/actions/workflows/build.yml/badge.svg)](https://github.com/bnlabs/mello/actions/workflows/build.yml)
 
 # Run Locally
 ``` 
