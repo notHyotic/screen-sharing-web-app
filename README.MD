@@ -16,4 +16,4 @@ pnpm run dev
 ```
 
 # Self Hosting
-With a githuh account, site can be hosted for free with [Vercel](https://vercel.com/)
+With a github account, site can be hosted for free with [Vercel](https://vercel.com/)
