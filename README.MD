@@ -4,8 +4,8 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=notHyotic_screen-sharing-web-app&metric=bugs)](https://sonarcloud.io/summary/new_code?id=notHyotic_screen-sharing-web-app)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=notHyotic_screen-sharing-web-app&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=notHyotic_screen-sharing-web-app)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=notHyotic_screen-sharing-web-app&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=notHyotic_screen-sharing-web-app)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=notHyotic_screen-sharing-web-app&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=notHyotic_screen-sharing-web-app)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=notHyotic_screen-sharing-web-app&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=notHyotic_screen-sharing-web-app)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=notHyotic_screen-sharing-web-app&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=notHyotic_screen-sharing-web-app)
 
 
 # Run Locally
