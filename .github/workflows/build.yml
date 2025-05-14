@@ -21,6 +21,7 @@ jobs:
       - name: Clone repo into subdirectory
         run: |
           git clone --depth=1 --branch ${{ github.event.pull_request.head.ref }} https://github.com/${{ github.repository }} repo
+          echo "PR head.ref: ${{ github.event.pull_request.head.ref }}"
           cd repo
           ls -lah
 
