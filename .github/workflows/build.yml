@@ -33,4 +33,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Run Go script
-        run: op build
+        run: |
+          cd repo
+          ls -lah
+          op build
