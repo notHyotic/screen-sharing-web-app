@@ -15,17 +15,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: 
+      image: hy0tic/common-runner-image
     steps:
       - uses: actions/checkout@v4
         name: Checkout Repository
-
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: "1.24.3"
-
-      - name: Install dependencies
-        run: go install lesiw.io/op@latest
 
       - name: Cache node modules
         uses: actions/cache@v3
