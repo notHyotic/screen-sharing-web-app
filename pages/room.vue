@@ -1,47 +1,3 @@
-<template>
-	<div class="h-screen bg-black">
-		<div class="flex h-[90%]">
-			<video
-				autoPlay
-				playsInline
-				ref="localVideo"
-				:class="chatIsOpen ? 'w-5/6' : 'w-full'"
-				:muted="isHost === 'true'"
-			/>
-			<Chat
-				v-if="chatIsOpen"
-				:chats="chatMessages"
-				:class="chatIsOpen ? 'w-1/6' : 'w-0'"
-			/>
-		</div>
-
-		<div class="h-[10%]">
-			<RoomInfo
-				:roomName="currentRoom"
-				:usernames="participantNames"
-				:username="username ?? ''"
-				:host="currentHost"
-				:isHost="isHost ?? ''"
-				:usingSFU="serverSideStreamingEnabled"
-			/>
-		</div>
-	</div>
-	<!-- Dialog component -->
-	<Dialog
-		v-model="dialogVisible"
-		header="Failed to join/host"
-		:visible="dialogVisible"
-		@hide="
-			() => {
-				dialogVisible = false
-			}
-		"
-	>
-		<p>Hosting/Joining room failed, error message: {{ failureMessage }}</p>
-		<Button type="button" @click="handleCloseDialog">Close</Button>
-	</Dialog>
-</template>
-
 <script setup lang="ts">
 // page data
 const localVideo = ref<HTMLMediaElement | null>(null)
@@ -237,3 +193,47 @@ provide("handleToggleStream", handleToggleStream)
 provide("ToggleChat", handleToggleChat)
 provide("leaveRoom", leave)
 </script>
+
+<template>
+	<div class="h-screen bg-black">
+		<div class="flex h-[90%]">
+			<video
+				autoPlay
+				playsInline
+				ref="localVideo"
+				:class="chatIsOpen ? 'w-5/6' : 'w-full'"
+				:muted="isHost === 'true'"
+			/>
+			<Chat
+				v-if="chatIsOpen"
+				:chats="chatMessages"
+				:class="chatIsOpen ? 'w-1/6' : 'w-0'"
+			/>
+		</div>
+
+		<div class="h-[10%]">
+			<RoomInfo
+				:roomName="currentRoom"
+				:usernames="participantNames"
+				:username="username ?? ''"
+				:host="currentHost"
+				:isHost="isHost ?? ''"
+				:usingSFU="serverSideStreamingEnabled"
+			/>
+		</div>
+	</div>
+	<!-- Dialog component -->
+	<Dialog
+		v-model="dialogVisible"
+		header="Failed to join/host"
+		:visible="dialogVisible"
+		@hide="
+			() => {
+				dialogVisible = false
+			}
+		"
+	>
+		<p>Hosting/Joining room failed, error message: {{ failureMessage }}</p>
+		<Button type="button" @click="handleCloseDialog">Close</Button>
+	</Dialog>
+</template>

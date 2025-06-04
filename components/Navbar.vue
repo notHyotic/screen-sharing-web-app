@@ -1,3 +1,4 @@
+<script setup lang="ts"></script>
 <template>
 	<div
 		class="flex h-20 w-full flex-row items-center justify-between bg-[rgb(31,41,55)]"
@@ -7,5 +8,3 @@
 		<div class="hover:filter: brightness(2) m-10 flex flex-row"></div>
 	</div>
 </template>
-
-<script setup lang="ts"></script>

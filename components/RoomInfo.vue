@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject } from "vue"
 
-const props = defineProps<{
+defineProps<{
 	roomName: string
 	usernames: string[]
 	username: string
