@@ -1,148 +1,120 @@
-<script lang="ts">
-import InputText from "primevue/inputtext"
-import { foodList } from "~/lib/foodList"
-import { useToast } from "primevue/usetoast"
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import InputText from 'primevue/inputtext'
+import { useToast } from 'primevue/usetoast'
+import { useRouter } from 'vue-router'
+import { foodList } from '~/lib/foodList'
 
-export default {
-	components: {
-		InputText
-	},
-	data() {
-		return {
-			username: "",
-			room: "",
-			touched: {
-				username: false,
-				room: false
-			},
-			serverSideStreaming: false,
-			toast: useToast()
-		}
-	},
-	computed: {
-		isUsernameValid() {
-			return (
-				this.username.trim().length > 0 && this.username.trim().length <= 30
-			)
-		},
-		isRoomValid() {
-			return this.room.trim().length > 0 && this.room.trim().length <= 30
-		},
-		showUsernameValidation() {
-			return this.touched.username && !this.isUsernameValid
-		},
-		showRoomValidation() {
-			return this.touched.room && !this.isRoomValid
-		}
-	},
-	methods: {
-		async showError(summary: string, detail: string) {
-			this.toast.add({
-				severity: "error",
-				summary: summary,
-				detail: detail,
-				life: 3000
-			})
-		},
-		async joinRoom() {
-			if (!this.isUsernameValid || !this.isRoomValid) {
-				return
-			}
+const toast = useToast()
+const router = useRouter()
 
-			const room = this.room.trim()
-			const username = this.username.trim()
+const username = ref('')
+const room = ref('')
+const touched = ref({
+  username: false,
+  room: false
+})
+const serverSideStreaming = ref(false)
 
-			const res = await fetch(
-				`/api/livekit/roomCheck?roomName=${room}&username=${username}`,
-				{
-					method: "GET"
-				}
-			)
+const isUsernameValid = computed(() =>
+  username.value.trim().length > 0 && username.value.trim().length <= 30
+)
+const isRoomValid = computed(() =>
+  room.value.trim().length > 0 && room.value.trim().length <= 30
+)
+const showUsernameValidation = computed(
+  () => touched.value.username && !isUsernameValid.value
+)
+const showRoomValidation = computed(
+  () => touched.value.room && !isRoomValid.value
+)
 
-			if (!res.ok) {
-				await this.showError(
-					"Network Error",
-					"Error occured while checking if server exist."
-				)
-				return
-			}
+function setUsernameTouched() {
+  touched.value.username = true
+}
+function setRoomTouched() {
+  touched.value.room = true
+}
 
-			const data = await res.json()
+async function showError(summary: string, detail: string) {
+  toast.add({
+    severity: 'error',
+    summary,
+    detail,
+    life: 3000
+  })
+}
 
-			if (!data.roomExist) {
-				await this.showError("Error joining room", "Room does not exist")
-				return
-			}
+async function joinRoom() {
+  if (!isUsernameValid.value || !isRoomValid.value) return
 
-			if (!data.usernameAvailable) {
-				await this.showError("Error joining room", "Username Taken")
-				return
-			}
+  const res = await fetch(
+    `/api/livekit/roomCheck?roomName=${room.value.trim()}&username=${username.value.trim()}`
+  )
 
-			this.$router.push({
-				path: "/room",
-				query: {
-					username: this.username.trim(),
-					room: room,
-					isHost: "false"
-				}
-			})
-		},
-		async hostRoom() {
-			if (!this.room) {
-				this.room = foodList[Math.floor(Math.random() * foodList.length)]
-			} else {
-				// Check if room already exist
-				const res = await fetch(
-					`/api/livekit/roomCheck?roomName=${this.room.trim()}&username=${this.username.trim()}`,
-					{
-						method: "GET"
-					}
-				)
+  if (!res.ok) {
+    await showError('Network Error', 'Error occurred while checking if server exists.')
+    return
+  }
 
-				if (!res.ok) {
-					await this.showError(
-						"Network Error",
-						"Error occured while checking if server exist."
-					)
-					return
-				}
+  const data = await res.json()
 
-				const data = await res.json()
+  if (!data.roomExist) {
+    await showError('Error joining room', 'Room does not exist')
+    return
+  }
 
-				if (data.roomExist) {
-					await this.showError("Error Creating Room", "Room Already Exist")
-					return
-				}
-			}
+  if (!data.usernameAvailable) {
+    await showError('Error joining room', 'Username taken')
+    return
+  }
 
-			if (!this.username) {
-				this.username = foodList[Math.floor(Math.random() * foodList.length)]
-			}
+  router.push({
+    path: '/room',
+    query: {
+      username: username.value.trim(),
+      room: room.value.trim(),
+      isHost: 'false'
+    }
+  })
+}
 
-			if (!this.isUsernameValid || !this.isRoomValid) {
-				return
-			}
+async function hostRoom() {
+  if (!room.value) {
+    room.value = foodList[Math.floor(Math.random() * foodList.length)]
+  } else {
+    const res = await fetch(
+      `/api/livekit/roomCheck?roomName=${room.value.trim()}&username=${username.value.trim()}`
+    )
+    if (!res.ok) {
+      await showError('Network Error', 'Error occurred while checking if server exists.')
+      return
+    }
+    const data = await res.json()
+    if (data.roomExist) {
+      await showError('Error Creating Room', 'Room Already Exists')
+      return
+    }
+  }
 
-			this.$router.push({
-				path: "/room",
-				query: {
-					username: this.username.trim(),
-					room: this.room.trim(),
-					isHost: "true",
-					serverSideStreaming: this.serverSideStreaming.toString()
-				}
-			})
-		},
-		setUsernameTouched() {
-			this.touched.username = true
-		},
-		setRoomTouched() {
-			this.touched.room = true
-		}
-	}
+  if (!username.value) {
+    username.value = foodList[Math.floor(Math.random() * foodList.length)]
+  }
+
+  if (!isUsernameValid.value || !isRoomValid.value) return
+
+  router.push({
+    path: '/room',
+    query: {
+      username: username.value.trim(),
+      room: room.value.trim(),
+      isHost: 'true',
+      serverSideStreaming: serverSideStreaming.value.toString()
+    }
+  })
 }
 </script>
+
 
 <template>
 	<Toast />
